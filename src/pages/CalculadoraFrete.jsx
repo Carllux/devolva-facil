@@ -30,7 +30,7 @@ export default function CalculadoraFrete() {
     },
     2: {
       nome: 'Total Express',
-      logo: 'https://www.orangeenvios.com.br/images/Transportadora/TotalExpress.png', // Fallback genérico
+      logo: 'https://www.orangeenvios.com.br/images/Transportadora/TotalExpress.png',
       modalidades: {}
     },
     3: {
@@ -54,7 +54,27 @@ export default function CalculadoraFrete() {
 
   const handleInputChange = (e) => {
     let { name, value } = e.target;
-    if (name === 'cepOrigem' || name === 'cepDestino') value = maskCEP(value);
+    
+    // Máscara para CEP
+    if (name === 'cepOrigem' || name === 'cepDestino') {
+      value = maskCEP(value);
+    } 
+    // Lógica Financeira: trata o seguro para alinhar à direita (estilo calculadora)
+    else if (name === 'seguro') {
+      // Remove tudo que não é número
+      const rawValue = value.replace(/\D/g, '');
+      // Converte para centavos (divide por 100)
+      const numericValue = Number(rawValue) / 100;
+      // Formata como moeda brasileira
+      value = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(numericValue);
+      
+      // Se o valor for zero, limpa o campo para o placeholder aparecer
+      if (numericValue === 0) value = '';
+    }
+    
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -159,22 +179,40 @@ export default function CalculadoraFrete() {
                 </div>
               </div>
 
-              <div>
-                <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-2">
-                  <span className="text-yellow-500">⚖️</span> Peso real do pacote (kg)
-                </label>
-                <input required type="text" inputMode="decimal" name="peso" placeholder="Ex: 2,500" value={formData.peso} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"/>
-                <div className="flex items-start gap-2 mt-2 text-sm text-gray-600">
-                  <span className="text-orange-500 font-bold mt-0.5">✓</span>
-                  <p>Não é peso cubado — nós calculamos isso pra você.</p>
-                </div>
+            <div>
+              <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-2">
+                <span className="text-yellow-500">⚖️</span> Peso real do pacote (kg)
+              </label>
+              <input 
+                required 
+                type="text" 
+                inputMode="decimal" 
+                name="peso" 
+                placeholder="Ex: 2,5" 
+                value={formData.peso} 
+                onChange={handleInputChange} 
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+              <div className="flex items-start gap-2 mt-2 text-sm text-gray-600">
+                <span className="text-orange-500 font-bold mt-0.5">✓</span>
+                <p>Use vírgula para decimais (Ex: 2,5 para 2kg e 500g).</p>
               </div>
+            </div>
 
               <div>
                 <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-2">
                   <span className="text-orange-400">🛡️</span> Valor da mercadoria (seguro)
                 </label>
-                <input required type="text" inputMode="decimal" name="seguro" placeholder="R$ 400,00" value={formData.seguro} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"/>
+                <input 
+                  required 
+                  type="text" 
+                  inputMode="decimal" 
+                  name="seguro" 
+                  placeholder="R$ 0,00" 
+                  value={formData.seguro} 
+                  onChange={handleInputChange} 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none text-right" 
+                />
                 <div className="flex items-start gap-2 mt-2 text-sm text-gray-600">
                   <span className="text-orange-500 font-bold mt-0.5">✓</span>
                   <p>Valor usado para indenização em caso de extravio.</p>
