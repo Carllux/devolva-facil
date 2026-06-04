@@ -3,6 +3,7 @@ import Hero from '../sections/Hero';
 import Features from '../sections/Features';
 import Technology from '../sections/Technology';
 import Media from '../sections/Media';
+import Parceiros from "./Parceiros";
 
 export default function Home() {
   return (
@@ -11,6 +12,8 @@ export default function Home() {
       <Features />
       <Technology />
       <Media />
+      {/* Componente Parceiros adicionado aqui */}
+      <Parceiros /> 
     </div>
   );
 }

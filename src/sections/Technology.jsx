@@ -30,7 +30,7 @@ export default function Technology() {
         <div className="w-full lg:w-1/2 relative">
           {/* A imagem principal do dashboard do seu Elementor */}
           <img 
-            src="/assets/Captura-de-tela-2024-10-05-092543.png" 
+            src="/assets/tela_login.png" 
             alt="Interface do Sistema Devolva Fácil" 
             className="w-full h-auto rounded-xl shadow-2xl border border-gray-200 relative z-10"
           />

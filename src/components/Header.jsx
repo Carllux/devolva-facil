@@ -9,8 +9,7 @@ export default function Header() {
     { label: 'Por que escolher', href: '#solucao' },
     { label: 'Tecnologia', href: '#napratica' },
     { label: 'Na Mídia', href: '#namidia' },
-    // Exemplo de link preparado para expansão (ex: rotas internas do react-router-dom no futuro)
-    // { label: 'Políticas', href: '/politica-de-privacidade' }
+    { label: 'Parceiros', href: '#parceiros' }, // Nova aba adicionada
   ];
 
   return (
@@ -18,7 +17,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* LOGO ANIMADO */}
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <a href="/" className="block">
             <AnimatedLogo className="h-12 md:h-14 w-auto drop-shadow-sm hover:drop-shadow-md transition-all" />
           </a>
