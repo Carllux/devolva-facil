@@ -1,4 +1,5 @@
 import React from 'react';
+import AnimatedLogo from './AnimatedLogo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,10 +10,9 @@ export default function Footer() {
         
         {/* Coluna 1: Branding e Identidade */}
         <div className="flex flex-col space-y-4">
-          <img 
-            src="/assets/logodevolve-branco.png" 
-            alt="Devolva Fácil Logo" 
-            className="h-10 w-auto self-start opacity-95" 
+          <AnimatedLogo 
+            className="h-16 w-auto self-start opacity-95 hover:opacity-100 transition-opacity" 
+            textColor="fill-white" 
           />
           <p className="text-gray-500 font-medium">
             Descomplicamos a devolução para sua empresa vender mais. Uma solução inteligente do Grupo PostalGow.
@@ -84,7 +84,7 @@ export default function Footer() {
         {/* Exibição explícita do CNPJ e Razão Social para máxima transparência em pesquisas */}
         <div className="bg-gray-900/40 border border-gray-900 px-4 py-2 rounded-lg max-w-2xl">
           <p className="leading-relaxed">
-            <strong>Razão Social:</strong> POSTALGOW LOGISTICA LTDA | <strong>CNPJ:</strong> 51.684.053/0001-57 
+            <strong>Razão Social:</strong> DEVOLVA FACIL LTDA | <strong>CNPJ:</strong> 10.426.959/0002-28 
             <span className="hidden lg:inline"> | </span>
             <br className="lg:hidden" />
             <strong>Inscrição Estadual:</strong> Isento

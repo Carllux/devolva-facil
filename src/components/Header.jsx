@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AnimatedLogo from './AnimatedLogo'; // Importação do novo logo animado
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,14 +17,10 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
-        {/* LOGO */}
+        {/* LOGO ANIMADO */}
         <div className="flex-shrink-0">
           <a href="/" className="block">
-            <img 
-              src="/assets/logodevovle.png" 
-              alt="Devolva Fácil Logo" 
-              className="h-10 md:h-11 w-auto object-contain"
-            />
+            <AnimatedLogo className="h-12 md:h-14 w-auto drop-shadow-sm hover:drop-shadow-md transition-all" />
           </a>
         </div>
 

@@ -1,21 +1,23 @@
 import React from 'react';
+import { IconFacilidade, IconAbrangencia, IconPadronizacao } from '../components/AnimatedIcons';
 
 export default function Features() {
   const features = [
     {
       title: "+ Facilidade",
       description: "No processo de devolução do cliente com uma plataforma simples, rápida e com fácil integração com qualquer ERP.",
-      icon: "/assets/ico1.jpg" // Lembre-se de ajustar a extensão caso baixe como PNG/WebP
+      // Injetamos o componente React diretamente aqui
+      icon: <IconFacilidade />
     },
     {
       title: "+ Abrangência",
       description: "Capilaridade de Malha Logística em todo território nacional, sendo uma solução “Drop Off” já integrada com os Correios e Lojas Credenciadas.",
-      icon: "/assets/ico2.jpg"
+      icon: <IconAbrangencia />
     },
     {
       title: "+ Padronização",
       description: "Manuseio das devoluções de acordo com padrão do Centro de Distribuição de nossos clientes.",
-      icon: "/assets/ico3.jpg"
+      icon: <IconPadronizacao />
     }
   ];
 
@@ -30,14 +32,14 @@ export default function Features() {
           {features.map((feature, index) => (
             <div 
               key={index} 
-              className="flex flex-col items-center p-8 bg-gray-50 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
+              className="flex flex-col items-center p-10 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 border border-gray-100/50"
             >
-              <img 
-                src={feature.icon} 
-                alt={feature.title} 
-                className="w-28 h-28 object-contain mb-6 mix-blend-multiply" 
-              />
-              <h3 className="text-2xl font-bold text-blue-700 mb-4">
+              {/* O ícone renderiza nativamente sem fundo, animado e leve */}
+              <div className="mb-8 p-4 bg-indigo-50/50 rounded-full">
+                {feature.icon}
+              </div>
+              
+              <h3 className="text-2xl font-bold text-[#2D2856] mb-4">
                 {feature.title}
               </h3>
               <p className="text-gray-600 leading-relaxed font-medium">
