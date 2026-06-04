@@ -1,4 +1,5 @@
 import React from 'react';
+import CalculadoraFrete from './CalculadoraFrete'; // Importando a calculadora
 
 export default function Parceiros() {
   return (
@@ -54,7 +55,7 @@ export default function Parceiros() {
             {/* Imagem Hero Parceiro */}
             <div className="bg-gray-50 flex items-center justify-center p-10 relative">
               {/* Fallback de cor caso a imagem demore a carregar */}
-              <div className="absolute inset-0 bg-linear-to-br from-orange-100/40 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-100/40 to-transparent"></div>
               <img 
                 src="/assets/tabelabanner.png" 
                 alt="Tabela de cotações Orange Envios" 
@@ -94,6 +95,11 @@ export default function Parceiros() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* INJEÇÃO DA CALCULADORA DE FRETES AQUI */}
+        <div className="mb-20">
+           <CalculadoraFrete />
         </div>
 
         {/* INTEGRAÇÕES E TRANSPORTADORAS */}
