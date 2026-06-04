@@ -16,29 +16,45 @@ export default function CalculadoraFrete() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [sortBy, setSortBy] = useState('price'); 
 
+  // Mapeamento enriquecido com Logos da Orange Envios e nomes das Modalidades
   const transportadorasMap = {
-    0: 'Correios',
-    1: 'JadLog',
-    2: 'Total Express',
-    3: 'Loggi',
-    4: 'J&T Express'
+    0: {
+      nome: 'Correios',
+      logo: 'https://www.orangeenvios.com.br/images/Transportadoracalc/correios.png',
+      modalidades: { 0: 'SEDEX', 1: 'PAC', 2: 'Mini Envios' }
+    },
+    1: {
+      nome: 'Jadlog',
+      logo: 'https://www.orangeenvios.com.br/images/Transportadora/JadLog.png',
+      modalidades: { 4: 'Package', 5: '.Com' }
+    },
+    2: {
+      nome: 'Total Express',
+      logo: 'https://www.orangeenvios.com.br/images/Transportadora/TotalExpress.png', // Fallback genérico
+      modalidades: {}
+    },
+    3: {
+      nome: 'Loggi',
+      logo: 'https://www.orangeenvios.com.br/images/Transportadora/Loggi.png',
+      modalidades: { 15: 'Expresso / Ponto' }
+    },
+    4: {
+      nome: 'J&T Express',
+      logo: 'https://www.orangeenvios.com.br/images/Transportadora/JeT.png',
+      modalidades: { 14: 'Padrão' }
+    }
   };
 
-  // Máscara automática para CEP (XXXXX-XXX)
   const maskCEP = (value) => {
     return value
-      .replace(/\D/g, '') // Remove tudo o que não for dígito
-      .replace(/^(\d{5})(\d)/, '$1-$2') // Coloca hífen após o 5º dígito
-      .slice(0, 9); // Limita a 9 caracteres
+      .replace(/\D/g, '') 
+      .replace(/^(\d{5})(\d)/, '$1-$2') 
+      .slice(0, 9); 
   };
 
   const handleInputChange = (e) => {
     let { name, value } = e.target;
-    
-    if (name === 'cepOrigem' || name === 'cepDestino') {
-      value = maskCEP(value);
-    }
-
+    if (name === 'cepOrigem' || name === 'cepDestino') value = maskCEP(value);
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -48,10 +64,8 @@ export default function CalculadoraFrete() {
     setErrorMsg(null);
     setResults([]);
 
-    // Função de tratamento para converter "R$ 400,00" ou "2,500" em floats puros (400 / 2.5)
     const parseNumber = (val) => Number(val.replace(/[R$\s]/g, '').replace(',', '.'));
 
-    // Payload idêntico ao exigido pela API
     const payload = {
       remetente: formData.cepOrigem,
       destino: formData.cepDestino,
@@ -66,8 +80,6 @@ export default function CalculadoraFrete() {
       ]
     };
 
-    console.log("🚀 [DEBUG] Payload enviado para a API:", JSON.stringify(payload, null, 2));
-
     try {
       const response = await fetch('/api/CalculadoraInstitucional/FretesDisponiveis', {
         method: 'POST',
@@ -80,17 +92,13 @@ export default function CalculadoraFrete() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`❌ [DEBUG] Erro retornado pela API (${response.status}):`, errorText);
         throw new Error(`HTTP ${response.status} - ${errorText}`);
       }
 
       const data = await response.json();
-      console.log("✅ [DEBUG] Resposta de Sucesso da API:", data);
-      
       setResults(data);
     } catch (error) {
-      console.error("🛑 [DEBUG] Erro capturado no bloco Catch:", error);
-      setErrorMsg(`Erro ao consultar fretes. Verifique os dados e tente novamente. (Log: ${error.message})`);
+      setErrorMsg(`Erro ao consultar fretes: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -98,12 +106,8 @@ export default function CalculadoraFrete() {
 
   const getSortedResults = () => {
     const validResults = results.filter(item => !item.erro);
-    
-    if (sortBy === 'price') {
-      return validResults.sort((a, b) => a.preco - b.preco);
-    } else if (sortBy === 'time') {
-      return validResults.sort((a, b) => a.prazo - b.prazo);
-    }
+    if (sortBy === 'price') return validResults.sort((a, b) => a.preco - b.preco);
+    if (sortBy === 'time') return validResults.sort((a, b) => a.prazo - b.prazo);
     return validResults;
   };
 
@@ -122,8 +126,8 @@ export default function CalculadoraFrete() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          {/* COLUNA DO FORMULÁRIO (Refatorado para bater com a imagem original) */}
-          <div className="lg:col-span-5 bg-white border border-gray-100 rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          {/* COLUNA DO FORMULÁRIO */}
+          <div className="lg:col-span-5 bg-white border border-gray-100 rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-max">
             <form onSubmit={handleSubmit} className="space-y-6">
               
               <div>
@@ -222,7 +226,7 @@ export default function CalculadoraFrete() {
 
             {errorMsg && (
               <div className="bg-red-50 text-red-600 p-5 rounded-xl border border-red-200 font-medium break-words mb-6 shadow-sm">
-                <span className="font-bold block mb-1">Atenção (Modo Debug Ativado):</span>
+                <span className="font-bold block mb-1">Atenção:</span>
                 <span className="text-sm font-mono">{errorMsg}</span>
               </div>
             )}
@@ -234,64 +238,98 @@ export default function CalculadoraFrete() {
               </div>
             )}
 
-            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-              {getSortedResults().map((frete, index) => (
-                <div key={frete.id} className="bg-white border border-gray-200 rounded-2xl p-5 hover:border-orange-300 hover:shadow-md transition-all flex flex-col">
-                  
-                  {/* Cabeçalho do Card de Resultado */}
-                  <div className="flex justify-between items-start mb-4 border-b border-gray-100 pb-4">
-                    <div>
-                      <div className="font-bold text-[#2D2856] text-lg">
-                        {transportadorasMap[frete.transportadora] || `Transportadora ${frete.transportadora}`}
-                      </div>
-                      <div className="text-sm text-gray-500 font-medium">
-                        {frete.modalidade}
-                      </div>
-                    </div>
+            <div className="space-y-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
+              {getSortedResults().map((frete, index) => {
+                const transpInfo = transportadorasMap[frete.transportadora] || {
+                  nome: `Transportadora ${frete.transportadora}`,
+                  logo: null,
+                  modalidades: {}
+                };
+                const modalidadeNome = transpInfo.modalidades[frete.modalidade] || frete.modalidade;
+
+                return (
+                  <div key={frete.id} className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-300 hover:shadow-md transition-all flex flex-col relative overflow-hidden">
                     
-                    {/* Badge Condicional Simulado */}
-                    {index === 0 && sortBy === 'price' && (
-                      <span className="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded-full border border-yellow-200">
-                        ⭐ Melhor custo-benefício
-                      </span>
-                    )}
-                    {index === 0 && sortBy === 'time' && (
-                      <span className="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full border border-green-200">
-                        ⏱ Mais rápido
-                      </span>
-                    )}
-                  </div>
+                    {/* Badge Condicional Simulado (Canto superior direito) */}
+                    <div className="absolute top-4 right-4">
+                      {index === 0 && sortBy === 'price' && (
+                        <span className="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1.5 rounded-full border border-yellow-200 flex items-center gap-1">
+                          ⭐ Melhor custo-benefício
+                        </span>
+                      )}
+                      {index === 0 && sortBy === 'time' && (
+                        <span className="bg-green-100 text-green-800 text-xs font-bold px-3 py-1.5 rounded-full border border-green-200 flex items-center gap-1">
+                          ⏱ Mais rápido
+                        </span>
+                      )}
+                    </div>
 
-                  {/* Dados Valores e Prazo em Colunas */}
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <div className="text-xs text-gray-500 font-bold mb-1">Preço</div>
-                      <div className="font-bold text-gray-900 text-lg">
-                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(frete.preco)}
+                    {/* Cabeçalho do Card: Logo + Nome */}
+                    <div className="flex items-center gap-4 mb-5 border-b border-gray-100 pb-5">
+                      <div className="w-20 h-12 flex items-center justify-center shrink-0">
+                        {transpInfo.logo ? (
+                          <img src={transpInfo.logo} alt={transpInfo.nome} className="max-w-full max-h-full object-contain" />
+                        ) : (
+                          <span className="text-3xl">🚚</span>
+                        )}
+                      </div>
+                      <div>
+                        <div className="font-extrabold text-[#2D2856] text-xl">
+                          {transpInfo.nome}
+                        </div>
+                        <div className="text-sm text-gray-500 font-medium tracking-wide">
+                          {modalidadeNome}
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <div className="text-xs text-gray-500 font-bold mb-1">Prazo</div>
-                      <div className="font-bold text-gray-900 text-lg">{frete.prazo} dias</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-500 font-bold mb-1">Status</div>
-                      <div className="font-bold text-green-600">Disponível</div>
-                    </div>
-                  </div>
 
-                </div>
-              ))}
+                    {/* Dados Valores e Prazo */}
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="bg-gray-50 rounded-xl p-3">
+                        <div className="text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Preço</div>
+                        <div className="font-black text-gray-900 text-lg">
+                          {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(frete.preco)}
+                        </div>
+                      </div>
+                      <div className="bg-gray-50 rounded-xl p-3">
+                        <div className="text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Prazo</div>
+                        <div className="font-black text-gray-900 text-lg">{frete.prazo} dias</div>
+                      </div>
+                      <div className="bg-gray-50 rounded-xl p-3">
+                        <div className="text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Status</div>
+                        <div className="font-bold text-green-600 text-lg">Disponível</div>
+                      </div>
+                    </div>
 
-              {results.filter(r => r.erro).map(freteErr => (
-                <div key={freteErr.id} className="bg-gray-50 border border-gray-200 rounded-2xl p-5 opacity-60 flex justify-between items-center">
-                  <div>
-                     <div className="font-bold text-gray-500">{transportadorasMap[freteErr.transportadora] || `Transportadora ${freteErr.transportadora}`}</div>
-                     <div className="text-xs text-red-500 font-medium mt-1">Bloqueado: {freteErr.erroMensagem}</div>
                   </div>
-                  <div className="text-gray-400 font-bold text-sm">Indisponível</div>
-                </div>
-              ))}
+                );
+              })}
+
+              {/* Exibição de Erros (Indisponíveis) */}
+              {results.filter(r => r.erro).map(freteErr => {
+                const transpInfo = transportadorasMap[freteErr.transportadora] || {
+                  nome: `Transportadora ${freteErr.transportadora}`,
+                  logo: null
+                };
+                return (
+                  <div key={freteErr.id} className="bg-gray-50 border border-gray-200 rounded-2xl p-5 opacity-70 flex justify-between items-center">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-8 flex items-center justify-center shrink-0 grayscale opacity-50">
+                        {transpInfo.logo ? (
+                          <img src={transpInfo.logo} alt={transpInfo.nome} className="max-w-full max-h-full object-contain" />
+                        ) : (
+                          <span className="text-2xl">🚚</span>
+                        )}
+                      </div>
+                      <div>
+                        <div className="font-bold text-gray-600">{transpInfo.nome}</div>
+                        <div className="text-xs text-red-500 font-medium mt-0.5">Bloqueado: {freteErr.erroMensagem}</div>
+                      </div>
+                    </div>
+                    <div className="text-gray-400 font-bold text-sm bg-white px-3 py-1 rounded-lg border border-gray-200">Indisponível</div>
+                  </div>
+                );
+              })}
             </div>
 
           </div>
