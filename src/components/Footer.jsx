@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="flex flex-col space-y-4">
           <a href="/" className="block self-start">
             <img 
-              src="/assets/logo.jpg" 
+              src="/assets/logo.png" 
               alt="Logo DevolvaFácil" 
               className="h-16 w-auto opacity-95 hover:opacity-100 transition-opacity rounded-lg" 
             />
