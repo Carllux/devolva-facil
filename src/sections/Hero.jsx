@@ -70,6 +70,7 @@ export default function Hero() {
             <video 
               className="w-full h-full object-cover"
               controls
+              muted
               autoPlay
               playsInline
             >
