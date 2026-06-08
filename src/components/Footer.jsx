@@ -55,9 +55,9 @@ export default function Footer() {
           <a href="/seguranca-da-informacao" className="hover:text-white transition-colors font-medium">
             Segurança da Informação
           </a>
-          <span className="text-xs text-indigo-300 font-medium pt-1">
+          {/* <span className="text-xs text-indigo-300 font-medium pt-1">
             Data Protection Officer: dpo@postalgow.com.br
-          </span>
+          </span> */}
         </div>
 
         {/* Coluna 4: Contatos Oficiais */}
