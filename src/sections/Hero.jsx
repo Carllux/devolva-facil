@@ -35,20 +35,20 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Player de Vídeo Responsivo */}
-        <div 
-          id="video-apresentacao"
-          className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-black"
-        >
-          <iframe 
-            className="w-full h-full"
-            src="https://www.youtube.com/embed/gz80QORNiEQ" 
-            title="Apresentação DevolvaFácil"
-            frameBorder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen
-          ></iframe>
-        </div>
+<div 
+  id="video-apresentacao"
+  className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-black"
+>
+  <video 
+    className="w-full h-full object-cover"
+    controls
+    preload="metadata"
+    poster="/assets/thumbnail.jpg" // Opcional: uma imagem para aparecer antes do play
+  >
+    <source src="/assets/VÍDEO DEVOLVAFÁCIL INSTITUCIONAL.mp4" type="video/mp4" />
+    Seu navegador não suporta vídeos em HTML5.
+  </video>
+</div>
         
       </div>
     </section>
