@@ -6,14 +6,20 @@
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![LGPD Compliant](https://img.shields.io/badge/LGPD-Compliant-green?style=for-the-badge)
 
-Este é o repositório oficial da plataforma **Devolva Fácil**, uma solução tecnológica desenvolvida pela **POSTALGOW REVERSE LTDA** para orquestração de logística reversa, permitindo que consumidores finais realizem a devolução de equipamentos de comodato de forma segura e automatizada.esponsivo:** Interface construída com React e Tailwind CSS para melhor experiência em mobile e desktop.
+Este é o repositório oficial da plataforma **Devolva Fácil**, uma solução tecnológica desenvolvida pela **POSTALGOW REVERSE LTDA** para orquestração de logística reversa. A aplicação oferece uma interface segura e automatizada para a devolução de equipamentos de comodato. Recentemente refatorada para uma arquitetura baseada em rotas dinâmicas e componentes otimizados, a landing page garante alta performance e fluidez na navegação.
+
+## 🚀 Funcionalidades da Refatoração
+* **Navegação Inteligente:** Integração robusta com *React Router*, eliminando conflitos de âncoras e garantindo o comportamento correto entre páginas.
+* **Componentes Otimizados:** Estrutura de *Header* e *Footer* refatorada com gestão de estado para navegação fluida entre seções e páginas internas.
+* **Hero Interativo:** Sistema de vídeo institucional com efeito *Sticky* (flutuante) durante a rolagem e controle de som com cronômetro de interação.
+* **Experiência do Usuário:** Implementação de *ScrollToTop* automático entre rotas e centralização de documentos de conformidade para melhor legibilidade.
 
 ## 🛠️ Tecnologias Utilizadas
 * **Frontend:** React.js
-* **Roteamento:** React Router DOM
+* **Roteamento:** React Router DOM (v6+)
 * **Estilização:** Tailwind CSS
 * **Gerenciamento de Estado:** React Hooks (useState, useEffect, useRef)
-* **Monitoramento:** Intersection Observer API
+* **Monitoramento:** Intersection Observer API (para comportamento de vídeo *sticky*)
 
 ## 📋 Pré-requisitos
 Antes de iniciar, certifique-se de ter instalado em sua máquina:
