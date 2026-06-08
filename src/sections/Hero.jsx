@@ -1,21 +1,57 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 export default function Hero() {
-  const videoRef = useRef(null);
+  const videoContainerRef = useRef(null);
+  const videoElementRef = useRef(null);
+  
   const [isSticky, setIsSticky] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [showPrompt, setShowPrompt] = useState(true);
+  
+  // Novo estado para o cronômetro (5 segundos)
+  const [timeLeft, setTimeLeft] = useState(5);
 
+  // Observer para o efeito Sticky (flutuante)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Se o vídeo sair da tela, ativa o modo flutuante
         setIsSticky(!entry.isIntersecting);
       },
       { threshold: 0.1 }
     );
 
-    if (videoRef.current) observer.observe(videoRef.current);
+    if (videoContainerRef.current) observer.observe(videoContainerRef.current);
     return () => observer.disconnect();
   }, []);
+
+  // Timer para o Autoplay mutado
+  useEffect(() => {
+    // Se o menu já fechou, para o timer
+    if (!showPrompt) return;
+
+    // Se o tempo ainda é maior que zero, diminui 1 segundo
+    if (timeLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft(prev => prev - 1), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      // Quando chegar a zero, inicia o vídeo mutado
+      handlePlayChoice(true);
+    }
+  }, [timeLeft, showPrompt]);
+
+  // Função que lida com a escolha do usuário ou com o término do tempo
+  const handlePlayChoice = (mute) => {
+    setIsMuted(mute);
+    setShowPrompt(false);
+    
+    if (videoElementRef.current) {
+      videoElementRef.current.muted = mute;
+      // Inicia o vídeo programaticamente
+      videoElementRef.current.play().catch(error => {
+        console.log("A reprodução automática foi evitada pelo navegador:", error);
+      });
+    }
+  };
 
   return (
     <section className="relative flex flex-col items-center justify-center text-center py-20 px-6 bg-gray-50 border-b border-gray-200">
@@ -50,28 +86,57 @@ export default function Hero() {
         </div>
 
         {/* Container que monitora a visibilidade para o efeito Sticky */}
-        <div ref={videoRef} className="w-full aspect-video">
+        <div ref={videoContainerRef} className="w-full aspect-video">
           <div 
             id="video-apresentacao"
             className={`
-              transition-all duration-500 ease-in-out bg-black rounded-2xl shadow-2xl border border-gray-200 overflow-hidden
+              relative transition-all duration-500 ease-in-out bg-black rounded-2xl shadow-2xl border border-gray-200 overflow-hidden
               ${isSticky 
                 ? "fixed bottom-24 right-6 w-72 aspect-video z-40 scale-100 shadow-2xl cursor-pointer hover:scale-105" 
                 : "w-full aspect-video"}
             `}
           >
             {/* Título que aparece apenas no modo flutuante */}
-            {isSticky && (
+            {isSticky && !showPrompt && (
               <div className="absolute top-0 left-0 w-full bg-black/80 text-white text-[11px] font-bold px-3 py-1 z-50">
                 Institucional - DevolvaFácil
               </div>
             )}
+
+            {/* Overlay com a pergunta do som e o cronômetro */}
+            {showPrompt && (
+              <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center text-white p-4 backdrop-blur-sm">
+                <h3 className={`${isSticky ? 'text-sm mb-2' : 'text-xl md:text-2xl mb-2'} font-bold text-center`}>
+                  Deseja assistir ao vídeo com som?
+                </h3>
+                
+                {/* Texto do Cronômetro */}
+                <p className={`${isSticky ? 'text-[10px]' : 'text-sm'} text-gray-300 mb-6`}>
+                  Iniciando no modo mudo em {timeLeft}s...
+                </p>
+
+                <div className={`flex ${isSticky ? 'flex-col gap-2' : 'flex-row gap-4'}`}>
+                  <button
+                    onClick={() => handlePlayChoice(false)}
+                    className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 px-6 py-2 rounded-lg font-semibold transition-colors text-sm md:text-base"
+                  >
+                    <span>🔊</span> Com Som
+                  </button>
+                  <button
+                    onClick={() => handlePlayChoice(true)}
+                    className="flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-500 px-6 py-2 rounded-lg font-semibold transition-colors text-sm md:text-base"
+                  >
+                    <span>🔇</span> Mudo
+                  </button>
+                </div>
+              </div>
+            )}
             
             <video 
+              ref={videoElementRef}
               className="w-full h-full object-cover"
-              controls
-              muted
-              autoPlay
+              controls={!showPrompt} // Mostra os controles apenas depois de iniciar
+              muted={isMuted}
               playsInline
             >
               <source src="/INSTITUCIONAL.mp4" type="video/mp4" />

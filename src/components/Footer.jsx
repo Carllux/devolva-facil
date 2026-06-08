@@ -4,13 +4,21 @@ import { Link } from 'react-router-dom'; // Importação essencial para rotas in
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  // Função para forçar o scroll para o topo de forma suave
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <footer className="bg-[#2D2856] text-gray-300 py-12 px-6 border-t border-indigo-900 text-sm">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-10 pb-8 border-b border-indigo-900/50">
         
         {/* Coluna 1: Branding */}
         <div className="flex flex-col space-y-4">
-          <Link to="/" className="block self-start">
+          <Link to="/" onClick={scrollToTop} className="block self-start">
             <img 
               src="/assets/logo-branco.png" 
               alt="Logo DevolvaFácil" 
@@ -39,16 +47,28 @@ export default function Footer() {
           </a>
         </div>
 
-        {/* Coluna 3: Conformidade (USANDO <Link>) */}
+        {/* Coluna 3: Conformidade (USANDO <Link> + onClick para scroll) */}
         <div className="flex flex-col space-y-2.5">
           <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-1">Conformidade e Segurança</h4>
-          <Link to="/politica-de-privacidade" className="hover:text-white transition-colors font-medium">
+          <Link 
+            to="/politica-de-privacidade" 
+            onClick={scrollToTop}
+            className="hover:text-white transition-colors font-medium"
+          >
             Política de Privacidade (LGPD)
           </Link>
-          <Link to="/termos-de-uso" className="hover:text-white transition-colors font-medium">
+          <Link 
+            to="/termos-de-uso" 
+            onClick={scrollToTop}
+            className="hover:text-white transition-colors font-medium"
+          >
             Termos de Uso
           </Link>
-          <Link to="/seguranca-da-informacao" className="hover:text-white transition-colors font-medium">
+          <Link 
+            to="/seguranca-da-informacao" 
+            onClick={scrollToTop}
+            className="hover:text-white transition-colors font-medium"
+          >
             Segurança da Informação
           </Link>
         </div>
