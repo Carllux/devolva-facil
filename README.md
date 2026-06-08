@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# Devolva Fácil - Plataforma de Logística Reversa
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![LGPD Compliant](https://img.shields.io/badge/LGPD-Compliant-green?style=for-the-badge)
 
-## Available Scripts
+Este é o repositório oficial da plataforma **Devolva Fácil**, uma solução tecnológica desenvolvida pela **POSTALGOW REVERSE LTDA** para orquestração de logística reversa. A aplicação oferece uma interface segura e automatizada para a devolução de equipamentos de comodato. Recentemente refatorada para uma arquitetura baseada em rotas dinâmicas e componentes otimizados, a landing page garante alta performance e fluidez na navegação.
 
-In the project directory, you can run:
+## 🚀 Funcionalidades da Refatoração
+* **Navegação Inteligente:** Integração robusta com *React Router*, eliminando conflitos de âncoras e garantindo o comportamento correto entre páginas.
+* **Componentes Otimizados:** Estrutura de *Header* e *Footer* refatorada com gestão de estado para navegação fluida entre seções e páginas internas.
+* **Hero Interativo:** Sistema de vídeo institucional com efeito *Sticky* (flutuante) durante a rolagem e controle de som com cronômetro de interação.
+* **Experiência do Usuário:** Implementação de *ScrollToTop* automático entre rotas e centralização de documentos de conformidade para melhor legibilidade.
 
-### `npm start`
+## 🛠️ Tecnologias Utilizadas
+* **Frontend:** React.js
+* **Roteamento:** React Router DOM (v6+)
+* **Estilização:** Tailwind CSS
+* **Gerenciamento de Estado:** React Hooks (useState, useEffect, useRef)
+* **Monitoramento:** Intersection Observer API (para comportamento de vídeo *sticky*)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📋 Pré-requisitos
+Antes de iniciar, certifique-se de ter instalado em sua máquina:
+* [Node.js](https://nodejs.org/) (versão 18.x ou superior recomendada)
+* [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## ⚙️ Como Executar
 
-### `npm test`
+1. **Clone o repositório:**
+```bash
+   git clone https://github.com/Carllux/devolva-facil
+   cd devolva-facil
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
 
-### `npm run build`
+2. **Instale as dependências:**
+```bash
+npm install
+# ou
+yarn install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Inicie o servidor de desenvolvimento:**
+```bash
+npm start
+# ou
+yarn start
 
-### `npm run eject`
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. **Acesse a aplicação:**
+Abra [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) no seu navegador.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🔐 Segurança e Compliance
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* **LGPD:** A aplicação processa dados como Nome, CPF e Endereço sob rigorosos padrões de segurança.
+* **Infraestrutura:** Utilizamos protocolos SSL/TLS para comunicação com as operadoras parceiras.
 
-## Learn More
+## 📝 Licença
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Este projeto é de propriedade intelectual exclusiva da **POSTALGOW REVERSE LTDA**. Todos os direitos reservados.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
