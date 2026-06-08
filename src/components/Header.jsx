@@ -19,7 +19,7 @@ export default function Header() {
         <div className="shrink-0">
           <a href="/" className="block">
             <img 
-              src="/public/assets/logo.jpg" 
+              src="/assets/logo.jpg" 
               alt="Logo DevolvaFácil" 
               className="h-12 md:h-14 w-auto drop-shadow-sm hover:drop-shadow-md transition-all" 
             />
