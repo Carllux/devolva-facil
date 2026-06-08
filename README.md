@@ -1,14 +1,12 @@
-# README.md
-
 # Devolva Fácil - Plataforma de Logística Reversa
 
-Este é o repositório oficial da plataforma **Devolva Fácil**, uma solução tecnológica desenvolvida pela **POSTALGOW REVERSE LTDA** para orquestração de logística reversa, permitindo que consumidores finais realizem a devolução de equipamentos de comodato de forma segura e automatizada.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![LGPD Compliant](https://img.shields.io/badge/LGPD-Compliant-green?style=for-the-badge)
 
-## 🚀 Funcionalidades
-* **Emissão Automática de Vouchers:** Interface para validação de posse e geração de códigos de postagem (Correios/Drop Off).
-* **Integração IA:** Agentes virtuais para suporte operacional e tratamento de dados.
-* **Segurança:** Tráfego de dados via APIs encriptadas e conformidade total com a **LGPD (Lei nº 13.709/2018)**.
-* **Design Responsivo:** Interface construída com React e Tailwind CSS para melhor experiência em mobile e desktop.
+Este é o repositório oficial da plataforma **Devolva Fácil**, uma solução tecnológica desenvolvida pela **POSTALGOW REVERSE LTDA** para orquestração de logística reversa, permitindo que consumidores finais realizem a devolução de equipamentos de comodato de forma segura e automatizada.esponsivo:** Interface construída com React e Tailwind CSS para melhor experiência em mobile e desktop.
 
 ## 🛠️ Tecnologias Utilizadas
 * **Frontend:** React.js
