@@ -71,7 +71,6 @@ export default function Hero() {
               className="w-full h-full object-cover"
               controls
               autoPlay
-              muted
               playsInline
             >
               <source src="/INSTITUCIONAL.mp4" type="video/mp4" />
