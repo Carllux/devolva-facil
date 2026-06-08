@@ -42,7 +42,7 @@ export default function Header() {
             <img 
               src="/assets/logo.png" 
               alt="Logo DevolvaFácil" 
-              className="h-12 md:h-14 w-auto drop-shadow-sm hover:drop-shadow-md transition-all" 
+              className="h-18 md:h-22 w-auto drop-shadow-sm hover:drop-shadow-md transition-all" 
             />
           </button>
         </div>
