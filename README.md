@@ -26,7 +26,7 @@ Antes de iniciar, certifique-se de ter instalado em sua máquina:
 
 1. **Clone o repositório:**
 ```bash
-   git clone [https://github.com/seu-usuario/devolva-facil.git](https://github.com/seu-usuario/devolva-facil.git)
+   git clone https://github.com/Carllux/devolva-facil
    cd devolva-facil
 
 ```
