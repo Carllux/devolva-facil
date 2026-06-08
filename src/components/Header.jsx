@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
-import AnimatedLogo from './AnimatedLogo'; // Importação do novo logo animado
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Links de navegação estruturados para fácil manutenção ou futura injeção via props/rotas
+  // Links de navegação estruturados
   const navLinks = [
     { label: 'Por que escolher', href: '#solucao' },
     { label: 'Tecnologia', href: '#napratica' },
     { label: 'Na Mídia', href: '#namidia' },
-    { label: 'Parceiros', href: '#parceiros' }, // Nova aba adicionada
+    { label: 'Parceiros', href: '#parceiros' },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
-        {/* LOGO ANIMADO */}
+        {/* LOGO ESTÁTICA */}
         <div className="shrink-0">
           <a href="/" className="block">
-            <AnimatedLogo className="h-12 md:h-14 w-auto drop-shadow-sm hover:drop-shadow-md transition-all" />
+            <img 
+              src="/logo.jpg" 
+              alt="Logo DevolvaFácil" 
+              className="h-12 md:h-14 w-auto drop-shadow-sm hover:drop-shadow-md transition-all" 
+            />
           </a>
         </div>
 
@@ -84,7 +87,7 @@ export default function Header() {
             <a 
               key={index} 
               href={link.href}
-              onClick={() => setIsMenuOpen(false)} // Fecha o menu ao clicar
+              onClick={() => setIsMenuOpen(false)}
               className="text-gray-700 hover:text-blue-600 font-semibold text-base transition-colors"
             >
               {link.label}
