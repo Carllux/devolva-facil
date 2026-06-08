@@ -1,40 +1,39 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 export default function Hero() {
-  const videoContainerRef = useRef(null);
+  // Alterado: Usaremos uma sentinela invisível para monitorar a rolagem
+  const sentinelRef = useRef(null);
   const videoElementRef = useRef(null);
   
   const [isSticky, setIsSticky] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [showPrompt, setShowPrompt] = useState(true);
   
-  // Novo estado para o cronômetro (5 segundos)
+  // Estado para o cronômetro (5 segundos)
   const [timeLeft, setTimeLeft] = useState(5);
 
-  // Observer para o efeito Sticky (flutuante)
+  // Observer para o efeito Sticky (flutuante) corrigido
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        // Se a sentinela (topo do vídeo) sair da tela, o vídeo flutua
         setIsSticky(!entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0 } // Dispara imediatamente ao sair da tela
     );
 
-    if (videoContainerRef.current) observer.observe(videoContainerRef.current);
+    if (sentinelRef.current) observer.observe(sentinelRef.current);
     return () => observer.disconnect();
   }, []);
 
   // Timer para o Autoplay mutado
   useEffect(() => {
-    // Se o menu já fechou, para o timer
     if (!showPrompt) return;
 
-    // Se o tempo ainda é maior que zero, diminui 1 segundo
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(prev => prev - 1), 1000);
       return () => clearTimeout(timer);
     } else {
-      // Quando chegar a zero, inicia o vídeo mutado
       handlePlayChoice(true);
     }
   }, [timeLeft, showPrompt]);
@@ -46,7 +45,6 @@ export default function Hero() {
     
     if (videoElementRef.current) {
       videoElementRef.current.muted = mute;
-      // Inicia o vídeo programaticamente
       videoElementRef.current.play().catch(error => {
         console.log("A reprodução automática foi evitada pelo navegador:", error);
       });
@@ -55,7 +53,7 @@ export default function Hero() {
 
   return (
     <section className="relative flex flex-col items-center justify-center text-center py-20 px-6 bg-gray-50 border-b border-gray-200">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto w-full">
         
         {/* Título Principal */}
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 text-gray-900 tracking-tight leading-tight">
@@ -66,7 +64,7 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
           <button 
             className="flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-300 w-full sm:w-auto"
-            onClick={() => document.getElementById('video-apresentacao').scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => document.getElementById('video-wrapper').scrollIntoView({ behavior: 'smooth' })}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
@@ -85,20 +83,24 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Container que monitora a visibilidade para o efeito Sticky */}
-        <div ref={videoContainerRef} className="w-full aspect-video">
+        {/* Sentinela de Observação (invisível) */}
+        <div ref={sentinelRef} className="h-px w-full" aria-hidden="true" />
+
+        {/* Wrapper que mantém o espaço do vídeo reservado (evita que a tela pule) */}
+        <div id="video-wrapper" className="w-full aspect-video relative">
+          
           <div 
             id="video-apresentacao"
             className={`
-              relative transition-all duration-500 ease-in-out bg-black rounded-2xl shadow-2xl border border-gray-200 overflow-hidden
+              transition-all duration-500 ease-in-out bg-black rounded-2xl overflow-hidden
               ${isSticky 
-                ? "fixed bottom-24 right-6 w-72 aspect-video z-40 scale-100 shadow-2xl cursor-pointer hover:scale-105" 
-                : "w-full aspect-video"}
+                ? "fixed bottom-6 right-6 w-72 aspect-video z-[9999] shadow-2xl cursor-pointer hover:scale-105 border-2 border-white" 
+                : "absolute inset-0 w-full h-full shadow-2xl border border-gray-200"}
             `}
           >
             {/* Título que aparece apenas no modo flutuante */}
             {isSticky && !showPrompt && (
-              <div className="absolute top-0 left-0 w-full bg-black/80 text-white text-[11px] font-bold px-3 py-1 z-50">
+              <div className="absolute top-0 left-0 w-full bg-black/80 text-white text-[11px] font-bold px-3 py-1 z-50 pointer-events-none">
                 Institucional - DevolvaFácil
               </div>
             )}

@@ -103,14 +103,14 @@ export default function Parceiros() {
         </div>
 
         {/* INTEGRAÇÕES E TRANSPORTADORAS */}
-        <div className="bg-[#2D2856] rounded-3xl p-10 md:p-14 text-white overflow-hidden relative">
+        <div className="bg-[#6156a2] rounded-3xl p-10 md:p-14 text-white overflow-hidden relative">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h4 className="text-3xl font-bold mb-4">Integrações Inteligentes e Escala</h4>
-              <p className="text-indigo-200 mb-6 leading-relaxed">
+              <p className="text-indigo-100 mb-6 leading-relaxed">
                 Sincronização automática de pedidos e códigos de rastreio com Bling, Nuvemshop, Shopify, Tray, Loja Integrada e muito mais. Nossa IA (Órion) prevê e reduz seus custos logísticos por região.
               </p>
-              <ul className="space-y-3 mb-8 text-indigo-100">
+              <ul className="space-y-3 mb-8 text-white">
                 <li className="flex items-center gap-2">
                   <span className="text-[#9DE23F]">✓</span> Pedidos importados automaticamente
                 </li>
@@ -125,24 +125,24 @@ export default function Parceiros() {
                 href="https://painel.orangeenvios.com.br/cadastro" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-block bg-[#F9C021] hover:bg-yellow-400 text-gray-900 font-bold py-3 px-8 rounded-xl shadow transition-colors"
+                className="inline-block bg-[#E7A818] hover:opacity-90 text-gray-900 font-bold py-3 px-8 rounded-xl shadow transition-opacity"
               >
                 Conheça a Plataforma
               </a>
             </div>
             
             {/* Elemento Visual Placeholder para as logos das transportadoras/integrações */}
-            <div className="grid grid-cols-2 gap-4 opacity-80">
-              <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/10 flex items-center justify-center font-bold text-center">
+            <div className="grid grid-cols-2 gap-4 opacity-90">
+              <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center justify-center font-bold text-center">
                 Múltiplas Transportadoras
               </div>
-              <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/10 flex items-center justify-center font-bold text-center">
+              <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center justify-center font-bold text-center">
                 Principais ERPs
               </div>
-              <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/10 flex items-center justify-center font-bold text-center">
+              <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center justify-center font-bold text-center">
                 Plataformas de E-commerce
               </div>
-              <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/10 flex items-center justify-center font-bold text-center">
+              <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center justify-center font-bold text-center">
                 Rastreio em Tempo Real
               </div>
             </div>
