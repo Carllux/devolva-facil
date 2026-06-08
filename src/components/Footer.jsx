@@ -13,7 +13,6 @@ export default function Footer() {
   };
 
   return (
-    // Alterado o bg principal para #6156a2 e ajustado bordas
     <footer className="bg-[#6156a2] text-gray-200 py-12 px-6 border-t border-[#4a4282] text-sm">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-10 pb-8 border-b border-[#4a4282]/50">
         
@@ -69,7 +68,7 @@ export default function Footer() {
             <address className="not-italic text-gray-100 font-medium space-y-1">
               <p>📍 Av. Barueri Mirim, 730 - Galpão 1</p>
               <p className="pl-5">Jardim Belval, Barueri - SP</p>
-              <p className="pl-5">CEP: 06428-120</p>
+              <p className="pl-5">CEP: 06422-140</p>
             </address>
             <div className="pt-1 text-gray-100 font-medium space-y-0.5">
               <p>📞 (11) 2155-9845</p>
@@ -94,10 +93,25 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center text-xs text-gray-300 font-medium gap-4 text-center lg:text-left">
-        <p>© {currentYear} DevolvaFácil. Todos os direitos reservados.</p>
-        <div className="bg-[#4a4282]/40 border border-[#4a4282] px-4 py-2 rounded-lg max-w-2xl">
-          <p className="text-gray-100"><strong>Razão Social:</strong> DEVOLVA FACIL LTDA | <strong>CNPJ:</strong> 10.426.959/0001-47</p>
+      {/* Rodapé inferior centralizado */}
+      <div className="max-w-7xl mx-auto flex flex-col items-center justify-center gap-4 text-center pt-8 border-t border-[#4a4282]/50 pb-24">
+        
+        <p className="text-xs text-gray-400 font-medium">
+          © {currentYear} DevolvaFácil. Todos os direitos reservados.
+        </p>
+
+        <div className="bg-black/20 border border-white/10 px-6 py-3 rounded-xl shadow-inner max-w-2xl backdrop-blur-sm text-center">
+          <p className="text-xs text-gray-200 leading-relaxed">
+            <span className="font-bold text-white uppercase tracking-wider mr-2">
+              Razão Social:
+            </span>
+            DEVOLVA FACIL LTDA 
+            <span className="mx-2 text-white/30">|</span>
+            <span className="font-bold text-white uppercase tracking-wider mr-2">
+              CNPJ:
+            </span>
+            10.426.959/0001-47
+          </p>
         </div>
       </div>
     </footer>
