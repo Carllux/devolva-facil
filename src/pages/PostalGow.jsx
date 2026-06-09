@@ -1,4 +1,14 @@
 import React from 'react';
+import { 
+  IconAgendamentos, 
+  IconRecondicionados, 
+  IconPallets, 
+  IconCrescimento, 
+  IconCapex, 
+  IconProdutividade, 
+  IconRetencao, 
+  IconRecuperacao 
+} from '../components/AnimatedIconsPostalGow';
 
 export default function PostalGow() {
   return (
@@ -6,7 +16,7 @@ export default function PostalGow() {
     <main className="bg-[#F4F1E9] min-h-screen" style={{ fontFamily: 'Verdana, sans-serif' }}>
       
       {/* HERO SECTION - Gradiente com os dois tons de Violeta da marca */}
-      <section className="relative bg-gradient-to-br from-[#322C57] to-[#6156A2] py-24 px-6 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#322C57] to-[#6156A2] pt-24 pb-36 px-6 overflow-hidden">
         {/* Elemento decorativo simulando ondas (referência visual) */}
         <div className="absolute -bottom-20 -left-20 w-96 h-96 border-[40px] border-white/5 rounded-full opacity-50 blur-sm pointer-events-none"></div>
         <div className="absolute top-10 -right-10 w-72 h-72 border-[30px] border-[#9BC31C]/10 rounded-full opacity-50 blur-sm pointer-events-none"></div>
@@ -18,7 +28,7 @@ export default function PostalGow() {
           
           {/* Título simulando o peso da fonte Vag-Rounded_Black */}
           <h1 className="text-4xl md:text-6xl font-black text-[#F4F1E9] tracking-tighter mb-6 leading-tight">
-            A pioneira em Soluções de <br className="hidden md:block"/> Logística Reversa no Brasil
+            PostalGOW, a pioneira em Soluções de <br className="hidden md:block"/> Logística Reversa no Brasil
           </h1>
           <p className="text-lg md:text-xl text-indigo-100 max-w-3xl mx-auto leading-relaxed mb-10 font-medium">
             Única empresa do país com know-how completo em Logística Reversa: Agendamento, Coleta, Refurbish, Destinação de Resíduos e Armazenagem.
@@ -33,30 +43,28 @@ export default function PostalGow() {
       </section>
 
       {/* NOSSOS NÚMEROS */}
-      <section className="py-16 bg-white border-b border-gray-100 relative -mt-8 mx-6 md:mx-auto max-w-6xl rounded-2xl shadow-xl z-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-[#F4F1E9]">
-          <div className="px-4">
-            <h3 className="text-5xl font-black text-[#F16521] mb-2 tracking-tighter">300K</h3>
-            <p className="text-sm text-[#322C57] font-bold uppercase tracking-wide">Agendamentos / Mês</p>
-          </div>
-          <div className="px-4">
-            <h3 className="text-5xl font-black text-[#F16521] mb-2 tracking-tighter">70K</h3>
-            <p className="text-sm text-[#322C57] font-bold uppercase tracking-wide">Equip. Recondicionados</p>
-          </div>
-          <div className="px-4">
-            <h3 className="text-5xl font-black text-[#F16521] mb-2 tracking-tighter">25K</h3>
-            <p className="text-sm text-[#322C57] font-bold uppercase tracking-wide">Posições de Pallets</p>
-          </div>
-          <div className="px-4">
-            <h3 className="text-5xl font-black text-[#F16521] mb-2 tracking-tighter">60%</h3>
-            <p className="text-sm text-[#322C57] font-bold uppercase tracking-wide">Crescimento Anual</p>
-          </div>
+      <section className="relative -mt-24 mx-6 md:mx-auto max-w-7xl z-20 pb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {[
+            { num: '300K', label: 'Agendamentos / Mês', icon: <IconAgendamentos /> },
+            { num: '70K', label: 'Equip. Recondicionados', icon: <IconRecondicionados /> },
+            { num: '25K', label: 'Posições de Pallets', icon: <IconPallets /> },
+            { num: '60%', label: 'Crescimento Anual', icon: <IconCrescimento /> },
+          ].map((item, i) => (
+            <div key={i} className="bg-white p-8 rounded-[32px] shadow-[0_10px_30px_rgba(50,44,87,0.08)] border-b-[6px] border-[#6156A2] hover:-translate-y-2 transition-transform duration-300 group flex flex-col items-start text-left h-full">
+              <div className="mb-6 bg-[#F4F1E9] w-16 h-16 p-3 flex items-center justify-center rounded-2xl group-hover:bg-[#E7A818] transition-colors">
+                {item.icon}
+              </div>
+              <h3 className="text-5xl font-black text-[#F16521] mb-2 tracking-tighter">{item.num}</h3>
+              <p className="text-[#322C57]/80 font-bold uppercase tracking-wide text-xs">{item.label}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* SOLUÇÕES E DIFERENCIAIS */}
-      <section id="solucoes" className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+      <section id="solucoes" className="py-20 px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-14">
           <h2 className="text-sm font-bold text-[#F16521] uppercase tracking-widest mb-3">Valor Agregado</h2>
           <h3 className="text-3xl md:text-5xl font-black text-[#322C57] mb-6 tracking-tight">Maximizando a lucratividade</h3>
           <p className="text-[#322C57]/80 max-w-2xl mx-auto text-lg leading-relaxed">
@@ -64,17 +72,20 @@ export default function PostalGow() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Ajuste do grid para alinhar a altura dos cards (h-full) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {[
-            { title: 'Redução de CAPEX', icon: '💰', desc: 'Recuperação inteligente que reduz a necessidade de novas compras.' },
-            { title: 'Produtividade', icon: '📈', desc: 'Ganhos reais com uma melhor gestão e monitoramento de ativos.' },
-            { title: 'Retenção de Clientes', icon: '🤝', desc: 'Atendimento de excelência que reflete na experiência do seu usuário.' },
-            { title: 'Taxa de Recuperação', icon: '🔄', desc: 'Os maiores índices de sucesso no recolhimento de equipamentos.' },
+            { title: 'Redução de CAPEX', icon: <IconCapex />, desc: 'Recuperação inteligente que reduz a necessidade de novas compras.' },
+            { title: 'Produtividade', icon: <IconProdutividade />, desc: 'Ganhos reais com uma melhor gestão e monitoramento de ativos.' },
+            { title: 'Retenção de Clientes', icon: <IconRetencao />, desc: 'Atendimento de excelência que reflete na experiência do seu usuário.' },
+            { title: 'Taxa de Recuperação', icon: <IconRecuperacao />, desc: 'Os maiores índices de sucesso no recolhimento de equipamentos.' },
           ].map((item, i) => (
-            <div key={i} className="bg-white p-8 rounded-3xl shadow-sm border-b-4 border-[#6156A2] hover:-translate-y-2 transition-all duration-300 group">
-              <div className="text-4xl mb-6 bg-[#F4F1E9] w-16 h-16 flex items-center justify-center rounded-2xl group-hover:bg-[#E7A818] transition-colors">{item.icon}</div>
+            <div key={i} className="bg-white p-8 rounded-[32px] shadow-[0_10px_30px_rgba(50,44,87,0.08)] border-b-[6px] border-[#6156A2] hover:-translate-y-2 transition-transform duration-300 group flex flex-col h-full">
+              <div className="mb-6 bg-[#F4F1E9] w-16 h-16 p-3 flex items-center justify-center rounded-2xl group-hover:bg-[#E7A818] transition-colors">
+                {item.icon}
+              </div>
               <h4 className="text-xl font-black text-[#322C57] mb-3">{item.title}</h4>
-              <p className="text-[#322C57]/70 text-sm leading-relaxed">{item.desc}</p>
+              <p className="text-[#322C57]/70 text-sm leading-relaxed flex-grow">{item.desc}</p>
             </div>
           ))}
         </div>
