@@ -42,7 +42,9 @@ export default function Parceiros() {
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Compare transportadoras, reduza custos e conte com suporte humano de verdade. Sem burocracia e sem travar a operação.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              
+              {/* Botões de Ação */}
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4">
                 <a 
                   href="https://painel.orangeenvios.com.br/cadastro" 
                   target="_blank" 
@@ -58,6 +60,7 @@ export default function Parceiros() {
                 >
                   Calcular Menor Frete
                 </a>
+
               </div>
             </div>
             
@@ -143,14 +146,31 @@ export default function Parceiros() {
                   <span className="text-[#9DE23F]">✓</span> Acesso a Correios, JadLog, Loggi e J&T
                 </li>
               </ul>
-              <a 
-                href="https://painel.orangeenvios.com.br/cadastro" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-block bg-[#E7A818] hover:opacity-90 text-gray-900 font-bold py-3 px-8 rounded-xl shadow transition-opacity"
-              >
-                Conheça a Plataforma
-              </a>
+              
+              {/* Botões de Ação com o Instagram adicionado */}
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+                <a 
+                  href="https://painel.orangeenvios.com.br/cadastro" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center bg-[#E7A818] hover:opacity-90 text-gray-900 font-bold py-3 px-8 rounded-xl shadow transition-opacity"
+                >
+                  Conheça a Plataforma
+                </a>
+                <a 
+                  href="https://www.instagram.com/orangeenvios/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 border border-white/20 bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition-colors text-center backdrop-blur-sm"
+                >
+                  <svg className="w-5 h-5 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                  @orangeenvios
+                </a>
+              </div>
             </div>
             
             {/* Elemento Visual Placeholder para as logos das transportadoras/integrações */}
