@@ -16,6 +16,7 @@ export default function PostalGow() {
     <main className="bg-[#F4F1E9] min-h-screen" style={{ fontFamily: 'Verdana, sans-serif' }}>
       
       {/* HERO SECTION - Gradiente com os dois tons de Violeta da marca */}
+      {/* Adicionado pb-36 para dar espaço aos cards sobrepostos */}
       <section className="relative bg-gradient-to-br from-[#322C57] to-[#6156A2] pt-24 pb-36 px-6 overflow-hidden">
         {/* Elemento decorativo simulando ondas (referência visual) */}
         <div className="absolute -bottom-20 -left-20 w-96 h-96 border-[40px] border-white/5 rounded-full opacity-50 blur-sm pointer-events-none"></div>
@@ -52,8 +53,11 @@ export default function PostalGow() {
             { num: '60%', label: 'Crescimento Anual', icon: <IconCrescimento /> },
           ].map((item, i) => (
             <div key={i} className="bg-white p-8 rounded-[32px] shadow-[0_10px_30px_rgba(50,44,87,0.08)] border-b-[6px] border-[#6156A2] hover:-translate-y-2 transition-transform duration-300 group flex flex-col items-start text-left h-full">
-              <div className="mb-6 bg-[#F4F1E9] w-16 h-16 p-3 flex items-center justify-center rounded-2xl group-hover:bg-[#E7A818] transition-colors">
-                {item.icon}
+              {/* Box de fundo do ícone levemente aumentado e ícone dimensionado */}
+              <div className="mb-6 bg-[#F4F1E9] w-20 h-20 p-4 flex items-center justify-center rounded-2xl group-hover:bg-[#E7A818] transition-colors">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  {item.icon}
+                </div>
               </div>
               <h3 className="text-5xl font-black text-[#F16521] mb-2 tracking-tighter">{item.num}</h3>
               <p className="text-[#322C57]/80 font-bold uppercase tracking-wide text-xs">{item.label}</p>
@@ -72,7 +76,6 @@ export default function PostalGow() {
           </p>
         </div>
 
-        {/* Ajuste do grid para alinhar a altura dos cards (h-full) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {[
             { title: 'Redução de CAPEX', icon: <IconCapex />, desc: 'Recuperação inteligente que reduz a necessidade de novas compras.' },
@@ -81,10 +84,13 @@ export default function PostalGow() {
             { title: 'Taxa de Recuperação', icon: <IconRecuperacao />, desc: 'Os maiores índices de sucesso no recolhimento de equipamentos.' },
           ].map((item, i) => (
             <div key={i} className="bg-white p-8 rounded-[32px] shadow-[0_10px_30px_rgba(50,44,87,0.08)] border-b-[6px] border-[#6156A2] hover:-translate-y-2 transition-transform duration-300 group flex flex-col h-full">
-              <div className="mb-6 bg-[#F4F1E9] w-16 h-16 p-3 flex items-center justify-center rounded-2xl group-hover:bg-[#E7A818] transition-colors">
-                {item.icon}
+              {/* AQUI ESTÁ A MÁGICA DO ALINHAMENTO: Box Maior (w-20 h-20) e Ícone Fixo no Centro (w-12 h-12) */}
+              <div className="mb-6 bg-[#F4F1E9] w-20 h-20 p-4 flex items-center justify-center rounded-2xl group-hover:bg-[#E7A818] transition-colors">
+                 <div className="w-12 h-12 flex items-center justify-center">
+                   {item.icon}
+                 </div>
               </div>
-              <h4 className="text-xl font-black text-[#322C57] mb-3">{item.title}</h4>
+              <h4 className="text-2xl font-black text-[#322C57] mb-3 leading-tight">{item.title}</h4>
               <p className="text-[#322C57]/70 text-sm leading-relaxed flex-grow">{item.desc}</p>
             </div>
           ))}
