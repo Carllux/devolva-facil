@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CalculadoraFrete from './CalculadoraFrete';
 
 // ✅ Imagens importadas como módulos (serão otimizadas no build)
@@ -7,6 +7,11 @@ import iconeOrangeImg from '../assets/icone-orange.png';
 
 export default function Parceiros() {
   
+  // Garante que a página sempre inicie no topo ao montar o componente
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const scrollToCalculadora = (e) => {
     e.preventDefault();
     const element = document.getElementById('calculadora-frete');

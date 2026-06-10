@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   IconAgendamentos,
   IconRecondicionados,
@@ -16,6 +16,11 @@ import cdManausImg from '../assets/CD-MANAUS.jpg';
 import cdBarueriImg from '../assets/CD-BARUERI.jpg';
 
 export default function PostalGow() {
+  // Garante que a página sempre inicie no topo
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <main className="bg-[#F4F1E9] min-h-screen" style={{ fontFamily: 'Verdana, sans-serif' }}>
 

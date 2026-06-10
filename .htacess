@@ -1,0 +1,50 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. FORÇAR HTTPS e CANONICALIZATION (Melhoria de SEO)
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,NE,R=301]
+
+  # 2. PROXY PARA A API (Mascarando a rota externa)
+  # Transforma o caminho /api/fretes em uma chamada invisível para a Orange Envios
+  RewriteRule ^api/fretes$ https://api-painel.orangeenvios.com.br/api/CalculadoraInstitucional/FretesDisponiveis [P,L]
+
+  # 3. ROTAS DO REACT (Evita erro 404 no F5)
+  RewriteRule ^index\.html$ - [L]
+  # Ignora a nossa rota de proxy para que o React não interfira
+  RewriteCond %{REQUEST_URI} !^/api/fretes$ 
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # 4. INJEÇÃO DE ORIGEM (Passando pelo bloqueio deles)
+  <LocationMatch "^/api/fretes$">
+      RequestHeader set Origin "https://www.orangeenvios.com.br"
+      RequestHeader set Referer "https://www.orangeenvios.com.br/"
+  </LocationMatch>
+
+  # 5. LIBERAÇÃO DE CORS PARA O SEU FRONT-END
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "POST, OPTIONS"
+  Header set Access-Control-Allow-Headers "Content-Type, Accept"
+
+  # 6. SECURITY HEADERS (HSTS para SEO)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# 7. CACHE HEADERS (Velocidade e SEO)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
