@@ -1,3 +1,6 @@
+RewriteEngine On
+RewriteRule ^teste-rewrite$ /index.html [L]
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -15,7 +18,7 @@
   # 3. ROTAS DO REACT (Evita erro 404 no F5)
   RewriteRule ^index\.html$ - [L]
   # Ignora a nossa rota de proxy para que o React não interfira
-  RewriteCond %{REQUEST_URI} !^/api/fretes$ 
+  RewriteCond %{REQUEST_URI} !^/api/fretes$
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
