@@ -131,7 +131,7 @@ export default function PostalGow() {
             {/* 2º Card: Sustentabilidade (Direita com desnível descendo e invadindo a esquerda no Desktop) */}
             <div className="col-span-1 md:col-span-1 bg-[#6156A2]/40 aspect-square rounded-3xl overflow-hidden border-4 border-[#6156A2] mt-12 md:mt-24 shadow-2xl z-20 relative md:-ml-10 group">
                <img 
-                 src="/assets/Sustentabilidade.jpg" 
+                 src="/assets/CD-MANAUS.jpg" 
                  alt="Sustentabilidade" 
                  className="w-full h-full object-cover mix-blend-overlay group-hover:mix-blend-normal transition-all duration-500" 
                  onError={(e) => e.target.style.display='none'} 
@@ -141,7 +141,7 @@ export default function PostalGow() {
             {/* 3º Card: CD Barueri (Base Esquerda subindo para sobrepor o Card 1) */}
             <div className="col-span-1 md:col-span-1 bg-[#6156A2]/40 aspect-square rounded-3xl overflow-hidden border-4 border-[#6156A2] -mt-8 md:-mt-20 shadow-2xl z-30 relative md:ml-10 group">
                <img 
-                 src="/assets/CD-Barueri.jpg" 
+                 src="/assets/CD-BARUERI.jpg" 
                  alt="CD Barueri" 
                  className="w-full h-full object-cover mix-blend-overlay group-hover:mix-blend-normal transition-all duration-500" 
                  onError={(e) => e.target.style.display='none'} 
