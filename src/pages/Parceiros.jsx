@@ -1,9 +1,12 @@
 import React from 'react';
-import CalculadoraFrete from './CalculadoraFrete'; // Importando a calculadora
+import CalculadoraFrete from './CalculadoraFrete';
+
+// ✅ Imagens importadas como módulos (serão otimizadas no build)
+import tabelaBannerImg from '../assets/tabelabanner.png';
+import iconeOrangeImg from '../assets/icone-orange.png';
 
 export default function Parceiros() {
   
-  // Função para rolagem suave até a calculadora
   const scrollToCalculadora = (e) => {
     e.preventDefault();
     const element = document.getElementById('calculadora-frete');
@@ -43,7 +46,6 @@ export default function Parceiros() {
                 Compare transportadoras, reduza custos e conte com suporte humano de verdade. Sem burocracia e sem travar a operação.
               </p>
               
-              {/* Botões de Ação */}
               <div className="flex flex-col sm:flex-row flex-wrap gap-4">
                 <a 
                   href="https://painel.orangeenvios.com.br/cadastro" 
@@ -60,28 +62,28 @@ export default function Parceiros() {
                 >
                   Calcular Menor Frete
                 </a>
-
               </div>
             </div>
             
             {/* Imagem Hero Parceiro com Efeito de Sobreposição */}
             <div className="bg-orange-50/50 flex items-center justify-center p-10 md:p-16 relative">
-              {/* Container Relativo para prender a foto sobreposta */}
               <div className="relative">
-                {/* Imagem Principal */}
                 <img 
-                  src="/assets/tabelabanner.png" 
+                  src={tabelaBannerImg} 
                   alt="Tabela de cotações Orange Envios" 
                   className="relative z-10 w-full max-w-md rounded-2xl shadow-xl border border-gray-200/50"
+                  loading="lazy"
+                  decoding="async"
                   onError={(e) => e.target.style.display = 'none'} 
                 />
                 
-                {/* Ícone Orange Envios Sobreposto (Desalinhado) */}
                 <div className="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 z-20 w-24 h-24 md:w-32 md:h-32 bg-white rounded-3xl shadow-2xl border-4 border-white flex items-center justify-center overflow-hidden hover:scale-105 transition-transform duration-300">
                   <img 
-                    src="/assets/icone-orange.png" 
+                    src={iconeOrangeImg} 
                     alt="Ícone Orange Envios" 
                     className="w-full h-full object-contain p-2"
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => e.target.style.display = 'none'} 
                   />
                 </div>
@@ -122,7 +124,6 @@ export default function Parceiros() {
         </div>
 
         {/* INJEÇÃO DA CALCULADORA DE FRETES AQUI */}
-        {/* Adicionado o ID para a rolagem funcionar e scroll-mt-24 para não colar no topo devido ao Header fixo */}
         <div id="calculadora-frete" className="mb-20 scroll-mt-24">
            <CalculadoraFrete />
         </div>
@@ -147,7 +148,6 @@ export default function Parceiros() {
                 </li>
               </ul>
               
-              {/* Botões de Ação com o Instagram adicionado */}
               <div className="flex flex-col sm:flex-row flex-wrap gap-4">
                 <a 
                   href="https://painel.orangeenvios.com.br/cadastro" 
@@ -173,7 +173,6 @@ export default function Parceiros() {
               </div>
             </div>
             
-            {/* Elemento Visual Placeholder para as logos das transportadoras/integrações */}
             <div className="grid grid-cols-2 gap-4 opacity-90">
               <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center justify-center font-bold text-center hover:bg-white/20 transition-colors">
                 Múltiplas Transportadoras

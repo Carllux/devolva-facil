@@ -1,47 +1,48 @@
 import React from 'react';
-import { 
-  IconAgendamentos, 
-  IconRecondicionados, 
-  IconPallets, 
-  IconCrescimento, 
-  IconCapex, 
-  IconProdutividade, 
-  IconRetencao, 
-  IconRecuperacao 
+import {
+  IconAgendamentos,
+  IconRecondicionados,
+  IconPallets,
+  IconCrescimento,
+  IconCapex,
+  IconProdutividade,
+  IconRetencao,
+  IconRecuperacao
 } from '../components/AnimatedIconsPostalGow';
+
+// ✅ Imagens importadas como módulos (serão comprimidas e convertidas para WebP no build)
+import feedImg from '../assets/POSTALGOW - FEED (11).png';
+import cdManausImg from '../assets/CD-MANAUS.jpg';
+import cdBarueriImg from '../assets/CD-BARUERI.jpg';
 
 export default function PostalGow() {
   return (
-    // Aplicando o fundo off-white da marca e definindo Verdana como fonte base
     <main className="bg-[#F4F1E9] min-h-screen" style={{ fontFamily: 'Verdana, sans-serif' }}>
-      
-      {/* HERO SECTION - Estrutura adaptada para 2 colunas como no modelo Orange */}
+
+      {/* HERO SECTION */}
       <section className="relative bg-gradient-to-br from-[#322C57] to-[#6156A2] pt-20 pb-24 px-6 overflow-hidden border-b border-gray-100">
         <div className="absolute -bottom-20 -left-20 w-96 h-96 border-[40px] border-white/5 rounded-full opacity-50 blur-sm pointer-events-none"></div>
-        
+
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-          {/* Coluna de Texto */}
           <div className="text-left">
-            {/* ADICIONADO: Tag de contexto da seção igual ao topo do parceiros.jsx */}
             <h2 className="text-sm font-bold text-[#E7A818] uppercase tracking-widest mb-2">
               Nossos Parceiros
             </h2>
-
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#F4F1E9] tracking-tighter mb-6 leading-tight">
               PostalGOW, a pioneira em Soluções de Logística Reversa no Brasil
             </h1>
             <p className="text-lg text-indigo-100 max-w-xl mb-8 leading-relaxed font-medium">
               Única empresa do país com know-how completo em Logística Reversa: Agendamento, Coleta, Refurbish, Destinação de Resíduos e Armazenagem.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
-              <a 
-                href="#solucoes" 
+              <a
+                href="#solucoes"
                 className="inline-block bg-[#9BC31C] hover:bg-[#8ab316] text-[#322C57] text-center font-black py-3.5 px-8 rounded-xl shadow-md transition-transform hover:-translate-y-1"
               >
                 Conheça Nossas Soluções
               </a>
-              <a 
+              <a
                 href="mailto:contato@postalgow.com.br"
                 className="inline-block bg-white/10 hover:bg-white/20 text-[#F4F1E9] text-center font-bold py-3.5 px-8 rounded-xl border border-white/20 transition-colors"
               >
@@ -49,17 +50,16 @@ export default function PostalGow() {
               </a>
             </div>
 
-            {/* ADICIONADO: Link para o Instagram da parceira */}
             <div className="mt-6">
-              <a 
+              <a
                 href="https://www.instagram.com/postalgow/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-indigo-100 hover:text-[#E7A818] font-bold transition-colors group"
               >
-                <svg 
-                  className="w-5 h-5 group-hover:scale-110 transition-transform" 
-                  fill="currentColor" 
+                <svg
+                  className="w-5 h-5 group-hover:scale-110 transition-transform"
+                  fill="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
@@ -69,33 +69,39 @@ export default function PostalGow() {
             </div>
           </div>
 
-          {/* Coluna de Imagens - Colagem de desnível/sobreposição movida para o topo */}
+          {/* Coluna de Imagens */}
           <div className="grid grid-cols-2 gap-4 pt-6 md:pt-0">
             <div className="col-span-2 bg-[#6156A2]/40 h-44 md:h-56 rounded-3xl overflow-hidden border-4 border-[#6156A2] shadow-2xl z-10 relative group">
-               <img 
-                 src="/assets/POSTALGOW - FEED (11).png" 
-                 alt="PostalGOW" 
-                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" 
-                 onError={(e) => e.target.style.display='none'} 
-               />
+              <img
+                src={feedImg}
+                alt="PostalGOW"
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                decoding="async"
+                onError={(e) => e.target.style.display='none'}
+              />
             </div>
-            
+
             <div className="bg-[#6156A2]/40 aspect-square rounded-3xl overflow-hidden border-4 border-[#6156A2] mt-6 md:mt-12 shadow-2xl z-20 relative group">
-               <img 
-                 src="/assets/CD-MANAUS.jpg" 
-                 alt="Sustentabilidade" 
-                 className="w-full h-full object-cover mix-blend-overlay group-hover:mix-blend-normal transition-all duration-500" 
-                 onError={(e) => e.target.style.display='none'} 
-               />
+              <img
+                src={cdManausImg}
+                alt="Sustentabilidade"
+                className="w-full h-full object-cover mix-blend-overlay group-hover:mix-blend-normal transition-all duration-500"
+                loading="lazy"
+                decoding="async"
+                onError={(e) => e.target.style.display='none'}
+              />
             </div>
-            
+
             <div className="bg-[#6156A2]/40 aspect-square rounded-3xl overflow-hidden border-4 border-[#6156A2] -mt-6 md:-mt-12 shadow-2xl z-20 relative md:ml-6 group">
-               <img 
-                 src="/assets/CD-BARUERI.jpg" 
-                 alt="CD Barueri" 
-                 className="w-full h-full object-cover mix-blend-overlay group-hover:mix-blend-normal transition-all duration-500" 
-                 onError={(e) => e.target.style.display='none'} 
-               />
+              <img
+                src={cdBarueriImg}
+                alt="CD Barueri"
+                className="w-full h-full object-cover mix-blend-overlay group-hover:mix-blend-normal transition-all duration-500"
+                loading="lazy"
+                decoding="async"
+                onError={(e) => e.target.style.display='none'}
+              />
             </div>
           </div>
         </div>
@@ -212,7 +218,7 @@ export default function PostalGow() {
               Envie Seu Currículo
             </a>
             
-            {/* ADICIONADO: Link adicional para Instagram na seção de sustentabilidade */}
+            {/* Link adicional para Instagram na seção de sustentabilidade */}
             <div className="mt-6 pt-6 border-t border-white/10">
               <a 
                 href="https://www.instagram.com/postalgow/"
