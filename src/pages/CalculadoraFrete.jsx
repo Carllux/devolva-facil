@@ -45,6 +45,20 @@ export default function CalculadoraFrete() {
     }
   };
 
+  // Detecta se está em desenvolvimento
+  const isDevelopment = import.meta.env.DEV;
+
+  // Função para obter a URL da API correta
+  const getApiUrl = () => {
+    if (isDevelopment) {
+      // Desenvolvimento: usa o proxy do Vite
+      return '/api/CalculadoraInstitucional/FretesDisponiveis';
+    } else {
+      // Produção: usa o proxy PHP
+      return '/proxy-frete.php';
+    }
+  };
+
   const maskCEP = (value) => {
     return value
       .replace(/\D/g, '') 
@@ -66,13 +80,17 @@ export default function CalculadoraFrete() {
       // Converte para centavos (divide por 100)
       const numericValue = Number(rawValue) / 100;
       // Formata como moeda brasileira
-      value = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(numericValue);
-      
-      // Se o valor for zero, limpa o campo para o placeholder aparecer
-      if (numericValue === 0) value = '';
+      if (numericValue > 0) {
+        value = new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        }).format(numericValue);
+      } else {
+        value = '';
+      }
+    } else if (name === 'peso') {
+      // Permite apenas números e vírgula para o peso
+      value = value.replace(/[^0-9,]/g, '');
     }
     
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -84,24 +102,52 @@ export default function CalculadoraFrete() {
     setErrorMsg(null);
     setResults([]);
 
-    const parseNumber = (val) => Number(val.replace(/[R$\s]/g, '').replace(',', '.'));
+    const parseNumber = (val) => {
+      if (!val) return 0;
+      // Remove R$, espaços e converte vírgula para ponto
+      const cleaned = val.toString().replace(/[R$\s]/g, '').replace(',', '.');
+      return Number(cleaned) || 0;
+    };
+
+    // Validação básica dos campos
+    const altura = Number(formData.altura);
+    const largura = Number(formData.largura);
+    const comprimento = Number(formData.comprimento);
+    const peso = parseNumber(formData.peso);
+
+    if (altura <= 0 || largura <= 0 || comprimento <= 0) {
+      setErrorMsg('Por favor, preencha todas as medidas da embalagem corretamente.');
+      setLoading(false);
+      return;
+    }
+
+    if (peso <= 0) {
+      setErrorMsg('Por favor, informe o peso do pacote corretamente.');
+      setLoading(false);
+      return;
+    }
 
     const payload = {
-      remetente: formData.cepOrigem,
-      destino: formData.cepDestino,
+      remetente: formData.cepOrigem.replace(/\D/g, ''),
+      destino: formData.cepDestino.replace(/\D/g, ''),
       valorSegurado: parseNumber(formData.seguro),
       volumes: [
         {
-          altura: Number(formData.altura),
-          largura: Number(formData.largura),
-          comprimento: Number(formData.comprimento),
-          peso: parseNumber(formData.peso)
+          altura: altura,
+          largura: largura,
+          comprimento: comprimento,
+          peso: peso
         }
       ]
     };
 
+    const apiUrl = getApiUrl();
+    console.log('Ambiente:', isDevelopment ? 'Desenvolvimento' : 'Produção');
+    console.log('URL da API:', apiUrl);
+    console.log('Payload enviado:', payload);
+
     try {
-      const response = await fetch('/api/CalculadoraInstitucional/FretesDisponiveis', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,15 +156,29 @@ export default function CalculadoraFrete() {
         body: JSON.stringify(payload)
       });
 
+      console.log('Status da resposta:', response.status);
+
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`HTTP ${response.status} - ${errorText}`);
+        console.error('Erro resposta:', errorText);
+        throw new Error(`HTTP ${response.status}`);
       }
 
       const data = await response.json();
-      setResults(data);
+      console.log('Dados recebidos:', data);
+      
+      if (data && Array.isArray(data)) {
+        setResults(data);
+        if (data.length === 0) {
+          setErrorMsg('Nenhuma opção de frete disponível para este endereço.');
+        }
+      } else {
+        setResults([]);
+        setErrorMsg('Resposta da API inválida.');
+      }
     } catch (error) {
-      setErrorMsg(`Erro ao consultar fretes: ${error.message}`);
+      console.error('Erro na requisição:', error);
+      setErrorMsg(`Erro ao consultar fretes: ${error.message}. Verifique se o servidor está acessível.`);
     } finally {
       setLoading(false);
     }
@@ -126,8 +186,8 @@ export default function CalculadoraFrete() {
 
   const getSortedResults = () => {
     const validResults = results.filter(item => !item.erro);
-    if (sortBy === 'price') return validResults.sort((a, b) => a.preco - b.preco);
-    if (sortBy === 'time') return validResults.sort((a, b) => a.prazo - b.prazo);
+    if (sortBy === 'price') return [...validResults].sort((a, b) => a.preco - b.preco);
+    if (sortBy === 'time') return [...validResults].sort((a, b) => a.prazo - b.prazo);
     return validResults;
   };
 
@@ -154,14 +214,32 @@ export default function CalculadoraFrete() {
                 <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-2">
                   <span className="text-pink-500">📍</span> De onde sai o pedido?
                 </label>
-                <input required type="text" name="cepOrigem" inputMode="numeric" placeholder="07177-100" value={formData.cepOrigem} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-blue-50/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"/>
+                <input 
+                  required 
+                  type="text" 
+                  name="cepOrigem" 
+                  inputMode="numeric" 
+                  placeholder="07177-100" 
+                  value={formData.cepOrigem} 
+                  onChange={handleInputChange} 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-blue-50/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                />
               </div>
 
               <div>
                 <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-2">
                   <span className="text-[#8B5A2B]">📦</span> Para onde você envia?
                 </label>
-                <input required type="text" name="cepDestino" inputMode="numeric" placeholder="44009-778" value={formData.cepDestino} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"/>
+                <input 
+                  required 
+                  type="text" 
+                  name="cepDestino" 
+                  inputMode="numeric" 
+                  placeholder="44009-778" 
+                  value={formData.cepDestino} 
+                  onChange={handleInputChange} 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                />
               </div>
 
               <div>
@@ -169,9 +247,33 @@ export default function CalculadoraFrete() {
                   <span className="text-gray-400">📐</span> Tamanho da embalagem (já fechada)
                 </label>
                 <div className="grid grid-cols-3 gap-3">
-                  <input required type="number" name="altura" placeholder="Alt." value={formData.altura} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"/>
-                  <input required type="number" name="largura" placeholder="Larg." value={formData.largura} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"/>
-                  <input required type="number" name="comprimento" placeholder="Comp." value={formData.comprimento} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"/>
+                  <input 
+                    required 
+                    type="number" 
+                    name="altura" 
+                    placeholder="Alt. (cm)" 
+                    value={formData.altura} 
+                    onChange={handleInputChange} 
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                  <input 
+                    required 
+                    type="number" 
+                    name="largura" 
+                    placeholder="Larg. (cm)" 
+                    value={formData.largura} 
+                    onChange={handleInputChange} 
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                  <input 
+                    required 
+                    type="number" 
+                    name="comprimento" 
+                    placeholder="Comp. (cm)" 
+                    value={formData.comprimento} 
+                    onChange={handleInputChange} 
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
                 </div>
                 <div className="flex items-start gap-2 mt-2 text-sm text-gray-600">
                   <span className="text-orange-500 font-bold mt-0.5">✓</span>
@@ -179,25 +281,25 @@ export default function CalculadoraFrete() {
                 </div>
               </div>
 
-            <div>
-              <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-2">
-                <span className="text-yellow-500">⚖️</span> Peso real do pacote (kg)
-              </label>
-              <input 
-                required 
-                type="text" 
-                inputMode="decimal" 
-                name="peso" 
-                placeholder="Ex: 2,5" 
-                value={formData.peso} 
-                onChange={handleInputChange} 
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-              <div className="flex items-start gap-2 mt-2 text-sm text-gray-600">
-                <span className="text-orange-500 font-bold mt-0.5">✓</span>
-                <p>Use vírgula para decimais (Ex: 2,5 para 2kg e 500g).</p>
+              <div>
+                <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-2">
+                  <span className="text-yellow-500">⚖️</span> Peso real do pacote (kg)
+                </label>
+                <input 
+                  required 
+                  type="text" 
+                  inputMode="decimal" 
+                  name="peso" 
+                  placeholder="Ex: 2,5" 
+                  value={formData.peso} 
+                  onChange={handleInputChange} 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+                <div className="flex items-start gap-2 mt-2 text-sm text-gray-600">
+                  <span className="text-orange-500 font-bold mt-0.5">✓</span>
+                  <p>Use vírgula para decimais (Ex: 2,5 para 2kg e 500g).</p>
+                </div>
               </div>
-            </div>
 
               <div>
                 <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-2">
@@ -226,10 +328,13 @@ export default function CalculadoraFrete() {
                 <button 
                   type="submit" 
                   disabled={loading}
-                  className="w-full bg-[#1A1A40] hover:bg-blue-900 text-white font-bold py-4 rounded-xl shadow-md transition-all flex justify-center items-center gap-2 disabled:bg-gray-400"
+                  className="w-full bg-[#1A1A40] hover:bg-blue-900 text-white font-bold py-4 rounded-xl shadow-md transition-all flex justify-center items-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {loading ? (
-                    <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                    <>
+                      <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                      Calculando...
+                    </>
                   ) : (
                     "Calcular frete"
                   )}
@@ -251,10 +356,18 @@ export default function CalculadoraFrete() {
                 <div className="flex flex-col gap-1 w-full sm:w-auto">
                   <div className="text-xs text-gray-500 font-bold mb-1">Priorizar decisão por:</div>
                   <div className="flex bg-gray-100 p-1 rounded-lg">
-                    <button onClick={() => setSortBy('price')} className={`flex-1 px-3 py-2 rounded-md text-sm font-bold transition-all ${sortBy === 'price' ? 'bg-white shadow-sm text-[#2D2856]' : 'text-gray-500 hover:text-gray-700'}`}>
+                    <button 
+                      type="button"
+                      onClick={() => setSortBy('price')} 
+                      className={`flex-1 px-3 py-2 rounded-md text-sm font-bold transition-all ${sortBy === 'price' ? 'bg-white shadow-sm text-[#2D2856]' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
                       Menor preço
                     </button>
-                    <button onClick={() => setSortBy('time')} className={`flex-1 px-3 py-2 rounded-md text-sm font-bold transition-all ${sortBy === 'time' ? 'bg-white shadow-sm text-[#2D2856]' : 'text-gray-500 hover:text-gray-700'}`}>
+                    <button 
+                      type="button"
+                      onClick={() => setSortBy('time')} 
+                      className={`flex-1 px-3 py-2 rounded-md text-sm font-bold transition-all ${sortBy === 'time' ? 'bg-white shadow-sm text-[#2D2856]' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
                       Menor prazo
                     </button>
                   </div>
@@ -283,10 +396,10 @@ export default function CalculadoraFrete() {
                   logo: null,
                   modalidades: {}
                 };
-                const modalidadeNome = transpInfo.modalidades[frete.modalidade] || frete.modalidade;
+                const modalidadeNome = transpInfo.modalidades[frete.modalidade] || frete.modalidade || 'Padrão';
 
                 return (
-                  <div key={frete.id} className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-300 hover:shadow-md transition-all flex flex-col relative overflow-hidden">
+                  <div key={frete.id || index} className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-300 hover:shadow-md transition-all flex flex-col relative overflow-hidden">
                     
                     {/* Badge Condicional Simulado (Canto superior direito) */}
                     <div className="absolute top-4 right-4">
@@ -306,7 +419,12 @@ export default function CalculadoraFrete() {
                     <div className="flex items-center gap-4 mb-5 border-b border-gray-100 pb-5">
                       <div className="w-20 h-12 flex items-center justify-center shrink-0">
                         {transpInfo.logo ? (
-                          <img src={transpInfo.logo} alt={transpInfo.nome} className="max-w-full max-h-full object-contain" />
+                          <img 
+                            src={transpInfo.logo} 
+                            alt={transpInfo.nome} 
+                            className="max-w-full max-h-full object-contain"
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
                         ) : (
                           <span className="text-3xl">🚚</span>
                         )}
@@ -331,7 +449,7 @@ export default function CalculadoraFrete() {
                       </div>
                       <div className="bg-gray-50 rounded-xl p-3">
                         <div className="text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Prazo</div>
-                        <div className="font-black text-gray-900 text-lg">{frete.prazo} dias</div>
+                        <div className="font-black text-gray-900 text-lg">{frete.prazo} dias úteis</div>
                       </div>
                       <div className="bg-gray-50 rounded-xl p-3">
                         <div className="text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Status</div>
@@ -344,24 +462,29 @@ export default function CalculadoraFrete() {
               })}
 
               {/* Exibição de Erros (Indisponíveis) */}
-              {results.filter(r => r.erro).map(freteErr => {
+              {results.filter(r => r.erro).map((freteErr, index) => {
                 const transpInfo = transportadorasMap[freteErr.transportadora] || {
                   nome: `Transportadora ${freteErr.transportadora}`,
                   logo: null
                 };
                 return (
-                  <div key={freteErr.id} className="bg-gray-50 border border-gray-200 rounded-2xl p-5 opacity-70 flex justify-between items-center">
+                  <div key={freteErr.id || `error-${index}`} className="bg-gray-50 border border-gray-200 rounded-2xl p-5 opacity-70 flex justify-between items-center">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-8 flex items-center justify-center shrink-0 grayscale opacity-50">
                         {transpInfo.logo ? (
-                          <img src={transpInfo.logo} alt={transpInfo.nome} className="max-w-full max-h-full object-contain" />
+                          <img 
+                            src={transpInfo.logo} 
+                            alt={transpInfo.nome} 
+                            className="max-w-full max-h-full object-contain"
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
                         ) : (
                           <span className="text-2xl">🚚</span>
                         )}
                       </div>
                       <div>
                         <div className="font-bold text-gray-600">{transpInfo.nome}</div>
-                        <div className="text-xs text-red-500 font-medium mt-0.5">Bloqueado: {freteErr.erroMensagem}</div>
+                        <div className="text-xs text-red-500 font-medium mt-0.5">Bloqueado: {freteErr.erroMensagem || 'Serviço indisponível'}</div>
                       </div>
                     </div>
                     <div className="text-gray-400 font-bold text-sm bg-white px-3 py-1 rounded-lg border border-gray-200">Indisponível</div>
